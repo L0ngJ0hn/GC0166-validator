@@ -1,0 +1,716 @@
+{
+    "1.1 No BOA_ZeroPN_No Resrv_Resp": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "Pure baseline: MDO=50/MDB=-50.",
+        "pns": [],
+        "boas": [],
+        "qrs": [],
+        "dfrs": []
+    },
+    "1.2 No BOA_ZeroPN_PQR": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "PQR at SP39 (19:00). MDO protected SP35-41 (except SP39).",
+        "pns": [],
+        "boas": [],
+        "qrs": [
+            {
+                "start": "2024-04-10 19:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            }
+        ],
+        "dfrs": []
+    },
+    "1.3 No BOA_ZeroPN_PQR_DCL": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "PQR + DCL 50MW.",
+        "pns": [],
+        "boas": [],
+        "qrs": [
+            {
+                "start": "2024-04-10 19:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "1.4 No BOA_NonZeroPN_PQR_DCL": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "PN 10MW from SP29 to SP43 + PQR + DCL.",
+        "pns": [
+            {
+                "start": "2024-04-11 21:00",
+                "end": "2024-04-11 21:30",
+                "mw": -40.0
+            }
+        ],
+        "boas": [],
+        "qrs": [
+            {
+                "start": "2024-04-10 19:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "1.5 BOA_NonZeroPN_PQR_DCL": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "BOA 20MW SP24 + PN + PQR + DCL.",
+        "pns": [
+            {
+                "start": "2024-04-11 21:00",
+                "end": "2024-04-11 21:30",
+                "mw": -40.0
+            }
+        ],
+        "boas": [
+            {
+                "start": "2024-04-10 11:30",
+                "end": "2024-04-10 12:00",
+                "mw": 20.0
+            }
+        ],
+        "qrs": [
+            {
+                "start": "2024-04-10 19:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "1.6 BOA_NonZeroPN_2PQR_DCL": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "2×PQR + PN + BOA + DCL.",
+        "pns": [
+            {
+                "start": "2024-04-11 21:00",
+                "end": "2024-04-11 21:30",
+                "mw": -40.0
+            }
+        ],
+        "boas": [
+            {
+                "start": "2024-04-10 11:30",
+                "end": "2024-04-10 12:00",
+                "mw": 20.0
+            }
+        ],
+        "qrs": [
+            {
+                "start": "2024-04-10 19:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            },
+            {
+                "start": "2024-04-11 05:30",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "2.1 NoBOA_ZeroPN_DRLH_PNQR": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "Bidirectional DR 10MW + QR 20MW.",
+        "pns": [],
+        "boas": [],
+        "qrs": [
+            {
+                "start": "2024-04-11 03:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            },
+            {
+                "start": "2024-04-11 04:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-10 19:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DR",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-10 19:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DR",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "2.2 NoBOA_ZeroPN_Mult_Resp_PNQR": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "DCL+DCH 50MW + PQR+NQR 20MW.",
+        "pns": [],
+        "boas": [],
+        "qrs": [
+            {
+                "start": "2024-04-11 03:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            },
+            {
+                "start": "2024-04-11 04:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-10 19:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DR",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-10 19:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DR",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 15:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DM",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 15:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DM",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "2.3 NoBOA_PN_Mult_Resp_PNQR": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "PN 10MW + DCL+DCH + QR.",
+        "pns": [
+            {
+                "start": "2024-04-11 02:00",
+                "end": "2024-04-11 02:30",
+                "mw": 30.0
+            },
+            {
+                "start": "2024-04-11 10:30",
+                "end": "2024-04-11 11:00",
+                "mw": -30.0
+            }
+        ],
+        "boas": [],
+        "qrs": [
+            {
+                "start": "2024-04-11 03:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            },
+            {
+                "start": "2024-04-11 04:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-10 19:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DR",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-10 19:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DR",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 15:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DM",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 15:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DM",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "2.4 BOAs_PNs_Mult_Resp_PNQR": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "Multiple BOAs + PQR+NQR.",
+        "pns": [
+            {
+                "start": "2024-04-11 02:00",
+                "end": "2024-04-11 02:30",
+                "mw": 30.0
+            },
+            {
+                "start": "2024-04-11 10:30",
+                "end": "2024-04-11 11:00",
+                "mw": -30.0
+            }
+        ],
+        "boas": [
+            {
+                "start": "2024-04-10 11:00",
+                "end": "2024-04-10 12:00",
+                "mw": 30.0
+            },
+            {
+                "start": "2024-04-10 13:00",
+                "end": "2024-04-10 14:00",
+                "mw": -30.0
+            }
+        ],
+        "qrs": [
+            {
+                "start": "2024-04-11 03:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            },
+            {
+                "start": "2024-04-11 04:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-10 19:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DR",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-10 19:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DR",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 07:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 15:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DM",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-11 15:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DM",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "3.1 BOA_in_resrv_ZeroPN_PNQR": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "BOA dispatch inside QR delivery window.",
+        "pns": [],
+        "boas": [
+            {
+                "start": "2024-04-10 11:30",
+                "end": "2024-04-10 12:00",
+                "mw": 30.0
+            },
+            {
+                "start": "2024-04-10 12:00",
+                "end": "2024-04-10 12:30",
+                "mw": 20.0
+            }
+        ],
+        "qrs": [
+            {
+                "start": "2024-04-10 11:30",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            },
+            {
+                "start": "2024-04-10 12:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            },
+            {
+                "start": "2024-04-11 01:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            },
+            {
+                "start": "2024-04-11 02:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            }
+        ],
+        "dfrs": []
+    },
+    "3.2 BOA_in_resrv_PN_PNQR": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "BOA inside QR window + PN 10MW.",
+        "pns": [
+            {
+                "start": "2024-04-10 13:00",
+                "end": "2024-04-10 13:30",
+                "mw": -50.0
+            }
+        ],
+        "boas": [
+            {
+                "start": "2024-04-10 11:30",
+                "end": "2024-04-10 12:00",
+                "mw": 30.0
+            },
+            {
+                "start": "2024-04-10 12:00",
+                "end": "2024-04-10 12:30",
+                "mw": 20.0
+            }
+        ],
+        "qrs": [
+            {
+                "start": "2024-04-10 11:30",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            },
+            {
+                "start": "2024-04-10 12:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            },
+            {
+                "start": "2024-04-11 01:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            },
+            {
+                "start": "2024-04-11 02:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 2
+            }
+        ],
+        "dfrs": []
+    },
+    "4.1 NoBOA_ZeroPN_DCLH_PNQR_min": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "Minute-granularity baseline: 50MW DCL+DCH + 50MW PN.",
+        "pns": [],
+        "boas": [],
+        "qrs": [
+            {
+                "start": "2024-04-10 14:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            },
+            {
+                "start": "2024-04-10 14:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-10 11:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-10 11:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DC",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "4.2 1stBOA_ZeroPN_DCLH_PNQR_min": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "1-min: 1st BOA 60MW export.",
+        "pns": [],
+        "boas": [
+            {
+                "start": "2024-04-10 11:15",
+                "end": "2024-04-10 11:30",
+                "mw": 60.0
+            }
+        ],
+        "qrs": [
+            {
+                "start": "2024-04-10 14:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            },
+            {
+                "start": "2024-04-10 14:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-10 11:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-10 11:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DC",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "4.3 2ndBOA_ZeroPN_DCLH_PNQR_min": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "1-min: BOA discharge then recharge cycle.",
+        "pns": [],
+        "boas": [
+            {
+                "start": "2024-04-10 11:15",
+                "end": "2024-04-10 11:30",
+                "mw": 60.0
+            },
+            {
+                "start": "2024-04-10 11:30",
+                "end": "2024-04-10 12:00",
+                "mw": 20.0
+            }
+        ],
+        "qrs": [
+            {
+                "start": "2024-04-10 14:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            },
+            {
+                "start": "2024-04-10 14:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-10 11:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-10 11:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DC",
+                "duration_sps": 8
+            }
+        ]
+    },
+    "4.4 BOAs_PNs_DCLH_PNQR_min": {
+        "start_time": "2024-04-10 11:00",
+        "desc": "Complexity stress test: minute-drifts and interlocking BOA/QR.",
+        "pns": [
+            {
+                "start": "2024-04-10 13:00",
+                "end": "2024-04-10 13:30",
+                "mw": -30.0
+            }
+        ],
+        "boas": [
+            {
+                "start": "2024-04-10 11:15",
+                "end": "2024-04-10 11:30",
+                "mw": 60.0
+            },
+            {
+                "start": "2024-04-10 11:30",
+                "end": "2024-04-10 12:00",
+                "mw": 20.0
+            }
+        ],
+        "qrs": [
+            {
+                "start": "2024-04-10 14:00",
+                "type": "PQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            },
+            {
+                "start": "2024-04-10 14:00",
+                "type": "NQR",
+                "mw": 20.0,
+                "mwh": 10.0,
+                "duration_sps": 1
+            }
+        ],
+        "dfrs": [
+            {
+                "start": "2024-04-10 11:00",
+                "mw": 50.0,
+                "direction": "Export",
+                "type": "DC",
+                "duration_sps": 8
+            },
+            {
+                "start": "2024-04-10 11:00",
+                "mw": 50.0,
+                "direction": "Import",
+                "type": "DC",
+                "duration_sps": 8
+            }
+        ]
+    }
+}

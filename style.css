@@ -1,0 +1,122 @@
+/* ── Global typography ────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+
+/* ── Page background ──────────────────────────────────────────────────── */
+.stApp { background: #0d1117; }
+
+/* ── Sidebar ──────────────────────────────────────────────────────────── */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+    border-right: 1px solid #21262d;
+}
+[data-testid="stSidebar"] .stMarkdown h2,
+[data-testid="stSidebar"] .stMarkdown h3, 
+[data-testid="stSidebar"] .stMarkdown p,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] .stCaption,
+[data-testid="stSidebar"] button div p,
+[data-testid="stSidebar"] hr,
+[data-testid="stSidebar"] .stMultiSelect span {
+    color: #ffffff !important;
+    border-color: #30363d !important;
+}
+[data-testid="stSidebar"] div[data-testid="stExpander"] label p {
+    color: #ffffff !important;
+}
+[data-testid="stSidebar"] .stMarkdown h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 1.5rem 0 0.6rem 0;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #30363d;
+}
+
+/* ── Section headers ──────────────────────────────────────────────────── */
+.section-header {
+    font-size: 0.72rem; font-weight: 600; color: #8b949e;
+    text-transform: uppercase; letter-spacing: .08em;
+    margin: 1.4rem 0 0.5rem 0;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #21262d;
+}
+
+/* ── Download button ─────────────────────────────────────────────────── */
+.stDownloadButton > button {
+    background: linear-gradient(135deg, #238636, #2ea043) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    padding: 0.65rem 1.5rem !important;
+    width: 100% !important;
+    letter-spacing: .03em;
+    transition: opacity .2s !important;
+}
+.stDownloadButton > button:hover { opacity: 0.88 !important; }
+
+/* ── Streamlit element tweaks ────────────────────────────────────────── */
+.stNumberInput input, .stTextInput input, .stSelectbox select {
+    background: #21262d !important;
+    border: 1px solid #30363d !important;
+    color: #f0f6fc !important;
+    border-radius: 6px !important;
+}
+.stTabs [data-baseweb="tab"] {
+    background: #161b22;
+    border-radius: 6px 6px 0 0;
+    font-size: 0.82rem;
+    color: #ffffff !important;
+}
+.stTabs [aria-selected="true"] { color: #58a6ff !important; border-bottom-color: #58a6ff !important; }
+div[data-testid="stExpander"] {
+    background: #161b22 !important;
+    border: 1px solid #21262d !important;
+    border-radius: 8px !important;
+}
+
+/* ── Plotly text visibility ──────────────────────────────────────────── */
+.js-plotly-plot .plotly .legendtext { color: #f0f6fc !important; }
+.js-plotly-plot .plotly .xtick text, .js-plotly-plot .plotly .ytick text { fill: #f0f6fc !important; }
+
+/* ── Expander Header visibility ──────────────────────────────────────── */
+div[data-testid="stExpander"] summary {
+    background-color: #21262d !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1rem !important;
+    border: 1px solid #30363d !important;
+    margin-bottom: 0.5rem !important;
+}
+div[data-testid="stExpander"] summary:hover {
+    border-color: #58a6ff !important;
+}
+div[data-testid="stExpander"] summary p {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+}
+div[data-testid="stExpander"] svg {
+    fill: #ffffff !important;
+}
+
+/* ── Delete Button Styling (the 'X' buttons) ─────────────────────────── */
+[data-testid="column"] button {
+    color: #f85149 !important;
+    border: 1px solid #f85149 !important;
+    background-color: transparent !important;
+    font-weight: bold !important;
+    padding: 0 !important;
+    height: 28px !important;
+    width: 28px !important;
+    line-height: normal !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+[data-testid="column"] button:hover {
+    background-color: #f85149 !important;
+    color: #ffffff !important;
+}
