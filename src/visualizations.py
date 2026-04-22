@@ -46,7 +46,7 @@ def plot_contract_profile(df, qr_list, dfr_list, full_range):
                       yaxis=dict(title="Contract MW", zeroline=True, zerolinecolor="#666"),
                       margin=dict(l=100, r=20, t=10, b=10),
                       hovermode="x unified", legend=dict(orientation="h", y=1.2, font=dict(color="#ffffff")))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 def plot_power_dispatch(df, full_range):
     """
@@ -66,7 +66,7 @@ def plot_power_dispatch(df, full_range):
                      yaxis=dict(range=[-max_mw*1.2, max_mw*1.2], title="Power (MW)", zeroline=True, zerolinecolor="#666"),
                      margin=dict(l=100, r=20, t=10, b=10),
                      hovermode="x unified", legend=dict(orientation="h", y=1.1, font=dict(color="#ffffff")))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 def plot_energy_limits(df, full_range):
     """
@@ -86,7 +86,7 @@ def plot_energy_limits(df, full_range):
                      yaxis=dict(range=[-max_mwh*1.2, max_mwh*1.2], title="Energy (MWh)", zeroline=True, zerolinecolor="#666"),
                      margin=dict(l=100, r=20, t=10, b=10),
                      hovermode="x unified", legend=dict(orientation="h", y=1.1, font=dict(color="#ffffff")))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 def plot_soe_margins(df, capacity_mwh, full_range):
     """
@@ -103,4 +103,4 @@ def plot_soe_margins(df, capacity_mwh, full_range):
                      yaxis=dict(range=[-0.1, capacity_mwh * 1.05], title="Energy (MWh)"),
                      margin=dict(l=100, r=20, t=10, b=10),
                      hovermode="x unified", legend=dict(orientation="h", y=1.1, font=dict(color="#ffffff")))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
