@@ -116,8 +116,14 @@ if df is not None and not df.empty:
     # Use .last() for state/energy to reflect end-of-period values (aligns with tests)
     # but use .mean() for BOA power to reflect average dispatch across the SP.
     agg_dict = {c: "last" for c in df.columns}
-    agg_dict["BOA_MW"] = "mean"
     agg_dict["PN_MW"] = "mean"
+    agg_dict["PN_MWh"] = "sum"
+    agg_dict["BOA_MW"] = "mean"
+    agg_dict["BOA_MWh"] = "sum"
+    agg_dict["DFR_MW"] = "mean"
+    agg_dict["DFR_MWh"] = "mean"
+    agg_dict["QR_MW"] = "mean"
+    agg_dict["QR_MWh"] = "mean"
     
     sp_df = df.resample("30min").agg(agg_dict).reset_index().rename(columns={"Time": "Timestamp"})
     sp_df = sp_df.sort_values("Timestamp")
@@ -160,8 +166,8 @@ if df is not None and not df.empty:
     ])
 
     with tab_sum:
-        # Remove protected data columns from the summary view
-        sp_summary_df = sp_df[[c for c in sp_df.columns if "Protected" not in c]]
+        # Remove protected data columns and SoE_pct from the summary view
+        sp_summary_df = sp_df[[c for c in sp_df.columns if "Protected" not in c and c != "SoE_pct"]]
         st.dataframe(sp_summary_df, width="stretch", height=400, hide_index=True)
 
     with tab_full:
@@ -171,7 +177,8 @@ if df is not None and not df.empty:
         num_cols = full_df.select_dtypes(include=[np.number]).columns
         full_df[num_cols] = full_df[num_cols].round(3)
         full_cols = [
-            "Timestamp", "SP", "SoE_pct", "SoE_MWh", "PN_MW", "BOA_MW", 
+            "Timestamp", "SP", "SoE_pct", "SoE_MWh", "PN_MW", "PN_MWh", "BOA_MW", "BOA_MWh",
+            "DFR_MW", "DFR_MWh", "QR_MW", "QR_MWh", 
             "MEL_MW", "MIL_MW", "MDO_MWh", "MDB_MWh", "Headroom_MWh", "Footroom_MWh"
         ]
         # Filter for existing columns only in case of slight variations

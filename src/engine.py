@@ -113,6 +113,8 @@ def _apply_qr_protection(
     contracts: List[QRContract],
     mdo_vol: np.ndarray,
     mdb_vol: np.ndarray,
+    qr_mw_active: np.ndarray,
+    qr_mwh_active: np.ndarray,
 ) -> None:
     """
     For each QR contract, accumulate protected volumes onto mdo_vol/mdb_vol arrays.
@@ -126,6 +128,11 @@ def _apply_qr_protection(
         del_s = c.delivery_start.to_datetime64()
         del_e = c.delivery_end.to_datetime64()
         post_e = c.protection_end.to_datetime64()
+
+        # Active delivery window
+        mask_delivery = (t_arr >= del_s) & (t_arr < del_e)
+        qr_mw_active[mask_delivery] += c.mw
+        qr_mwh_active[mask_delivery] += c.mwh
 
         # Pre-window OR post-window; delivery window itself is released
         mask = ((t_arr >= pre_s) & (t_arr < del_s)) | ((t_arr >= del_e) & (t_arr < post_e))
@@ -142,6 +149,8 @@ def _apply_dfr_protection(
     mdb_vol: np.ndarray,
     mel_mw: np.ndarray,
     mil_mw: np.ndarray,
+    dfr_mw_active: np.ndarray,
+    dfr_mwh_active: np.ndarray,
 ) -> None:
     """
     For each DFR contract, protect energy AND reduce MEL/MIL throughout the full
@@ -159,6 +168,9 @@ def _apply_dfr_protection(
 
         mask_protection = (t_arr >= pre_s) & (t_arr < post_e)
         mask_delivery   = (t_arr >= del_s) & (t_arr < del_e)
+
+        dfr_mw_active[mask_delivery] += c.mw
+        dfr_mwh_active[mask_delivery] += c.protected_mwh
 
         if c.direction == "Export":  # DCL / export response
             mdo_vol[mask_protection] += c.protected_mwh
@@ -246,8 +258,12 @@ def run_engine(
     # --- Accumulator arrays ---
     qr_mdo_vol = np.zeros(n)
     qr_mdb_vol = np.zeros(n)
+    qr_mw_active = np.zeros(n)
+    qr_mwh_active = np.zeros(n)
     dfr_mdo_vol = np.zeros(n)
     dfr_mdb_vol = np.zeros(n)
+    dfr_mw_active = np.zeros(n)
+    dfr_mwh_active = np.zeros(n)
     pn_mdo_vol = np.zeros(n)      # PN specific MDO protection
     pn_mdb_vol = np.zeros(n)      # PN specific MDB protection
     mel_reduction = np.zeros(n)   # MW being removed from MEL (DFR High)
@@ -270,9 +286,9 @@ def run_engine(
         else:
             unpacked_qr.append(c)
 
-    _apply_qr_protection(timeline, unpacked_qr, qr_mdo_vol, qr_mdb_vol)
+    _apply_qr_protection(timeline, unpacked_qr, qr_mdo_vol, qr_mdb_vol, qr_mw_active, qr_mwh_active)
     _apply_dfr_protection(
-        timeline, dfr_contracts, dfr_mdo_vol, dfr_mdb_vol, mel_reduction, mil_reduction
+        timeline, dfr_contracts, dfr_mdo_vol, dfr_mdb_vol, mel_reduction, mil_reduction, dfr_mw_active, dfr_mwh_active
     )
     _apply_pn_protection(timeline, pn_segments, pn_mdo_vol, pn_mdb_vol)
 
@@ -301,7 +317,13 @@ def run_engine(
         "SoE_pct": np.round(soe / params.capacity_mwh * 100, 4),
         "SoE_MWh": np.round(soe, 4),
         "PN_MW": np.round(pn_mw, 4),
+        "PN_MWh": np.round(pn_mw / 60.0, 4),
         "BOA_MW": np.round(boa_mw, 4),
+        "BOA_MWh": np.round(boa_mw / 60.0, 4),
+        "DFR_MW": np.round(dfr_mw_active, 4),
+        "DFR_MWh": np.round(dfr_mwh_active, 4),
+        "QR_MW": np.round(qr_mw_active, 4),
+        "QR_MWh": np.round(qr_mwh_active, 4),
         "MEL_MW": np.round(mel, 4),
         "MIL_MW": np.round(mil, 4),
         "QR_Protected_MDO_MWh": np.round(qr_mdo_vol, 4),
