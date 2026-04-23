@@ -47,13 +47,13 @@ calc_btn, start_dt_from_sidebar = components.render_sidebar()
 # Main Panel Header
 st.markdown(
     "<h1 style='font-size:1.7rem;font-weight:700;color:#f0f6fc;margin-bottom:0.2rem;'>"
-    "⚡ GC0166 MDO/MDB/MEL/MIL Validation Tool"
+    "⚡ GC0166 Validation Tool"
     "</h1>",
     unsafe_allow_html=True,
 )
 st.markdown(
     "<p style='color:#8b949e;font-size:0.85rem;margin-top:0;'>"
-    "1-minute forward-looking State of Energy model · NESO GC0166 Grid Code"
+    "1-minute granularity forward-looking State of Energy model · NESO GC0166 Grid Code"
     "</p>",
     unsafe_allow_html=True,
 )
@@ -231,11 +231,11 @@ else:
     </div>
     <div style="background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:12px 20px;min-width:130px;">
       <div style="font-size:0.65rem;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;">Resolution</div>
-      <div style="font-size:1.5rem;font-weight:700;color:#3fb950;">1 min</div>
+      <div style="font-size:1.5rem;font-weight:700;color:#3fb950;">1 or 30 min</div>
     </div>
     <div style="background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:12px 20px;min-width:130px;">
       <div style="font-size:0.65rem;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;">Window</div>
-      <div style="font-size:1.5rem;font-weight:700;color:#d29922;">48 h</div>
+      <div style="font-size:1.5rem;font-weight:700;color:#d29922;">42 h</div>
     </div>
   </div>
 </div>
@@ -247,7 +247,7 @@ else:
 st.markdown(
     """
 <div style="margin-top:3rem;padding-top:1rem;border-top:1px solid #21262d; text-align:center;color:#484f58;font-size:0.72rem;">
-GC0166 Validation Tool · NESO Grid Code Changes · Protected Period: SP−4 → SP+2
+GC0166 Validation Tool · NESO Grid Code Changes · April 2026
 </div>
 """,
     unsafe_allow_html=True,
