@@ -9,7 +9,7 @@ This document outlines the methodological formulation of the Maximum Delivery Of
    * **SoE**: The State of Energy of the battery (footroom).
    * **Headroom**: The physical volume available to charge (`Capacity - SoE`).
    * **MDO (Maximum Delivery Offer)**: Real-time available energy that can be promised for positive dispatch.
-   * **MDB (Maximum Delivery Bid)**: Real-time available capacity that can be promised for negative dispatch (charging). This is inherently a negative boundary (import threshold).
+   * **MDB (Maximum Delivery Bid)**: Real-time available capacity that can be promised for negative dispatch (charging).
    * **MEL / MIL**: Absolute limit boundaries for real-world continuous multi-minute Power (MW) operation.
 3. **Protection Window**: Contractual obligations (QR, DFR) typically lock down volumes. The window starts **4 Settlement Periods (SP-4)** before absolute delivery and runs through to **2 Settlement Periods (SP+2)** after delivery conclusion.
 
@@ -38,17 +38,17 @@ Output boundaries generated from baseline SoE:
 
 ## 3. Limit Reduction (Protection Windows)
 
-Contracts demand guaranteed energy availability at future timestamps. To fulfill this, the base structural limits restrict BM accessibility *before* those contracts activate.
+Contracts demand guaranteed energy availability at future timestamps. To fulfill this we restrict BM accessibility *before* those contracts activate and *after* the contaracts finish though the MDO/MDB.
 
 ### 3.1 Quick Reserve (QR) Logic
 Quick Reserve reserves a stated physical energy volume (in MWh).
-* **Positive QR (PQR)** reserves volume out of the battery (Export). It demands absolute reductions from the standard MDO.
+* **Positive QR (PQR)** reserves footroom inside the battery (Export). It demands absolute reductions from the standard MDO.
 * **Negative QR (NQR)** reserves headroom inside the asset (Import). It demands absolute reductions from the standard MDB.
 
 **QR Protection Cycle**:
-1. **Pre-Delivery (SP-4 up until Delivery Start)**: Valid contracted volumes are removed from the available MDO or MDB tracking pools.
-2. **Post-Delivery (Delivery End until SP+2)**: The same restricted structural reservations hold firm.
-3. **During Delivery Window**: QR volumes are intentionally *not* protected against MDO/MDB. They are technically "released" and structurally visible to NESO's dispatch algorithms for instructed delivery.
+1. **Pre-Delivery (SP-4 up until Delivery Start)**: Valid contracted volumes are removed from the available MDO or MDB values.
+2. **Post-Delivery (Delivery End until SP+2)**: Valid contracted volumes are removed from the available MDO or MDB values.
+3. **During Delivery Window**: QR volumes are intentionally *not* protected against MDO/MDB. They are technically "released" to the BM and visible to NESO's dispatch algorithms for instructed delivery.
 
 ### 3.2 Dynamic Frequency Response (DFR) Logic
 DFR demands un-instructed continuous power availability. These boundaries alter both Power Boundaries (MEL/MIL) and Energy Boundaries (MDO/MDB). 
@@ -61,7 +61,7 @@ Volume Requirement: `Contract_{MW} * Service_Duration / 60`
 * **DFR Import (High Frequency / DCH)**: Demands minimum stored headroom. Reduces **MDB** inside the SP-4 → SP+2 protection envelope. Also reduces absolute mathematical **MIL** operating capability over the delivery window.
 
 ### 3.3 Physical Notification (PN) Future Protection
-To ensure sufficient volume for forward-planned structural asset PNs, the GC0166 formulation explicitly protects PN volumes within the 4 Settlement Periods prior to action.
+To ensure sufficient volume for planned asset PNs, the GC0166 changes explicitly protects PN volumes within the 4 Settlement Periods prior to action.
 * If a PN signals future export, the requisite `PN_{MW} * Duration` in energy is withheld from current MDO pools in the preamble timeframes.
 * If a PN signals future import, requisite headroom is withheld from current MDB.
 
