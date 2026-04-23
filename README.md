@@ -4,7 +4,7 @@ An open-source reference implementation of the NESO GC0166 Grid Code changes for
 
 The application calculates minute-by-minute base State of Energy (SoE) driven by Physical Notifications (PN) and Bid-Offer Acceptances (BOA). It then applies contractual protection rules (SP-4 to SP+2) for Quick Reserve (QR) and Dynamic Frequency Response (DFR) contracts to compute valid **Maximum Delivery Offer (MDO)**, **Maximum Delivery Bid (MDB)**, **Maximum Export Limit (MEL)**, and **Maximum Import Limit (MIL)** profiles.
 
-This tool is designed to help the community validate their own asset dispatch logic and understand the new reporting requirements under the GC0166 grid code modifications.
+This tool is designed to help validate and understand the new parameter requirements under the GC0166 grid code modifications.
 
 ## Project Structure
 
