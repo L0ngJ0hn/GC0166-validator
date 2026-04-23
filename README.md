@@ -1,6 +1,6 @@
 # GC0166 Validation Tool
 
-An open-source reference implementation of the NESO GC0166 Grid Code changes for energy storage assets.
+An prototype implementation of the NESO GC0166 Grid Code changes for energy storage assets.
 
 The application calculates minute-by-minute base State of Energy (SoE) driven by Physical Notifications (PN) and Bid-Offer Acceptances (BOA). It then applies contractual protection rules (SP-4 to SP+2) for Quick Reserve (QR) and Dynamic Frequency Response (DFR) contracts to compute valid **Maximum Delivery Offer (MDO)**, **Maximum Delivery Bid (MDB)**, **Maximum Export Limit (MEL)**, and **Maximum Import Limit (MIL)** profiles.
 
