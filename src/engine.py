@@ -187,10 +187,22 @@ def _apply_pn_protection(
     mdb_vol: np.ndarray,
 ) -> None:
     """
-    As per grid code: PN energy volume must be protected 4 SPs (2 hours) before the PN.
+    As per NESO MDO/MDB Best Practice Guide v1 (May 2026), p.10:
+
     - Export PN (mw > 0) reduces MDO (energy reserved for discharge).
     - Import PN (mw < 0) reduces MDB (headroom reserved for charge).
-    Released during the PN window itself (handled by baseline SoE).
+
+    Pre-window (SP-4 to PN start): full volume protected as a lump sum.
+
+    During delivery: protection is released incrementally each minute to mirror
+    the energy actually being delivered.  At minute i (0-indexed) within the
+    delivery window, (i+1) minutes of energy have been dispatched, so:
+
+        remaining_protection[i] = vol - (i+1) * mwh_per_min
+
+    This ensures MDO/MDB stays constant throughout the PN delivery period,
+    because the per-minute SoE/headroom change and the per-minute protection
+    release exactly cancel each other out.
     """
     t_arr = timeline.values  # use native numpy datetime arrays instead of casting to int64
     for seg in pn_segments:
@@ -202,13 +214,28 @@ def _apply_pn_protection(
 
         pre_s = (seg.start_dt - pd.Timedelta(minutes=SP_PRE_WINDOW * MINS_PER_SP)).to_datetime64()
         pn_s  = seg.start_dt.to_datetime64()
+        pn_e  = seg.end_dt.to_datetime64()
 
-        # Protect energy/headroom in the 4 SPs window before the PN starts
-        mask = (t_arr >= pre_s) & (t_arr < pn_s)
+        # --- Pre-window: hold full volume ---
+        mask_pre = (t_arr >= pre_s) & (t_arr < pn_s)
         if seg.mw > 0:
-            mdo_vol[mask] += vol
+            mdo_vol[mask_pre] += vol
         else:
-            mdb_vol[mask] += vol
+            mdb_vol[mask_pre] += vol
+
+        # --- Delivery window: incrementally release protection ---
+        # At minute i (0-indexed), (i+1) minutes of energy have been delivered.
+        # Remaining protection decreases linearly from (vol - mwh_per_min) → 0,
+        # keeping MDO/MDB constant throughout the delivery SP.
+        delivery_indices = np.where((t_arr >= pn_s) & (t_arr < pn_e))[0]
+        n_del = len(delivery_indices)
+        if n_del > 0:
+            mwh_per_min = abs(seg.mw) / MINS_PER_HOUR
+            remaining = np.maximum(0.0, vol - (np.arange(1, n_del + 1) * mwh_per_min))
+            if seg.mw > 0:
+                mdo_vol[delivery_indices] += remaining
+            else:
+                mdb_vol[delivery_indices] += remaining
 
 
 # ---------------------------------------------------------------------------
