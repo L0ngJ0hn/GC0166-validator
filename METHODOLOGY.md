@@ -65,7 +65,15 @@ To ensure sufficient volume for forward-planned structural asset PNs, the GC0166
 * If a PN signals future export, the requisite `PN_{MW} * Duration` in energy is withheld from current MDO pools in the preamble timeframes.
 * If a PN signals future import, requisite headroom is withheld from current MDB.
 
-*(Note: During the PN window itself, standard SoE tracking accounts for the volume dynamically, thus specific secondary volume protection drops off).*
+**During the PN delivery window — Incremental Release** *(per NESO MDO/MDB Best Practice Guide v1, May 2026, p.10)*:
+
+The protected volume is **not** released as a lump sum at the start of the PN window. Instead, it is returned to the MDO/MDB pool incrementally, minute-by-minute, in step with the energy actually being delivered. At minute `i` (0-indexed) within the delivery window:
+
+```
+remaining_protection[i] = vol − (i + 1) × (|PN_MW| / 60)
+```
+
+Because the per-minute change in SoE / headroom and the per-minute reduction in protection are equal and opposite, the net effect is that **MDO (for export PNs) or MDB (for import PNs) remains constant throughout the entire PN delivery period**. The protection reaches exactly zero at the final minute of the window.
 
 ---
 
