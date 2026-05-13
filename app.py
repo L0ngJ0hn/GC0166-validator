@@ -193,6 +193,7 @@ if df is not None and not df.empty:
             "QR_Protected_MDO_MWh", "QR_Protected_MDB_MWh", 
             "DFR_Protected_MDO_MWh", "DFR_Protected_MDB_MWh", 
             "PN_Protected_MDO_MWh", "PN_Protected_MDB_MWh",
+            "BOA_Protected_MDO_MWh", "BOA_Protected_MDB_MWh",
         ]
         mdo_display_df = df.reset_index().rename(columns={"Time": "Timestamp"})[prot_cols]
         num_cols = mdo_display_df.select_dtypes(include=[np.number]).columns
