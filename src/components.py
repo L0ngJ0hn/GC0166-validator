@@ -106,6 +106,7 @@ def render_sidebar():
         # ── BOA Events ────────────────────────────────────────────────────────
         st.markdown("### ⚡ BOA Instructions")
         with st.expander("➕ Add BOA Event", expanded=False):
+            boa_acc   = dt_selector("Acceptance Time", start_dt, "boa_acc")
             boa_start = dt_selector("BOA Start", start_dt, "boa_s")
             boa_end   = dt_selector("BOA End", start_dt + pd.Timedelta(minutes=30).to_pytimedelta(), "boa_e")
             boa_mw    = st.number_input("BOA MW (+ve=export/discharge, -ve=import/charge)", value=0.0, step=10.0, format="%.1f", key="boa_mw_in")
@@ -113,8 +114,8 @@ def render_sidebar():
                 from .models import BOAEvent
                 try:
                     # Validate by creating a temporary object with keyword arguments for Pydantic V2
-                    BOAEvent(start_dt=pd.Timestamp(boa_start), end_dt=pd.Timestamp(boa_end), mw=boa_mw)
-                    st.session_state.boa_list.append({"start": boa_start, "end": boa_end, "mw": boa_mw})
+                    BOAEvent(acceptance_dt=pd.Timestamp(boa_acc), start_dt=pd.Timestamp(boa_start), end_dt=pd.Timestamp(boa_end), mw=boa_mw)
+                    st.session_state.boa_list.append({"acceptance": boa_acc, "start": boa_start, "end": boa_end, "mw": boa_mw})
                     st.rerun()
                 except ValueError as e:
                     st.error(str(e))
@@ -122,7 +123,8 @@ def render_sidebar():
         for i, b in enumerate(st.session_state.boa_list):
             c1, c2 = st.columns([4, 1])
             with c1:
-                st.caption(f"BOA {i+1}: {b['mw']:+.0f} MW  {b['start'].strftime('%Y-%m-%d %H:%M')}→{b['end'].strftime('%H:%M')}")
+                acc_str = b.get('acceptance', b['start']).strftime('%H:%M')
+                st.caption(f"BOA {i+1}: {b['mw']:+.0f} MW  Acc: {acc_str}  {b['start'].strftime('%Y-%m-%d %H:%M')}→{b['end'].strftime('%H:%M')}")
             with c2:
                 if st.button("✕", key=f"del_boa_{i}"):
                     st.session_state.boa_list.pop(i)

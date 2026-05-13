@@ -38,7 +38,7 @@ def load_scenario(name: str):
         for s in pn_segs
     ]
     st.session_state.boa_list = [
-        {"start": b.start_dt.to_pydatetime(), "end": b.end_dt.to_pydatetime(), "mw": b.mw}
+        {"acceptance": b.acceptance_dt.to_pydatetime(), "start": b.start_dt.to_pydatetime(), "end": b.end_dt.to_pydatetime(), "mw": b.mw}
         for b in boa_evts
     ]
     st.session_state.qr_list = [
@@ -82,6 +82,7 @@ def build_inputs_from_state():
     ]
     boa_evts = [
         BOAEvent(
+            acceptance_dt=pd.Timestamp(b.get("acceptance", b["start"])),
             start_dt=pd.Timestamp(b["start"]), 
             end_dt=pd.Timestamp(b["end"]), 
             mw=b["mw"]
