@@ -1,7 +1,7 @@
 from __future__ import annotations
 import pandas as pd
 from pydantic import BaseModel, Field, model_validator, ConfigDict
-from typing import Literal
+from typing import Literal, Optional
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -59,12 +59,17 @@ class BOAEvent(BaseModel):
     """A BOA instruction: unit delivers at this level between start/end."""
     model_config = ConfigDict(arbitrary_types_allowed=True)
     
+    acceptance_dt: Optional[pd.Timestamp] = None
     start_dt: pd.Timestamp
     end_dt: pd.Timestamp        # exclusive end
     mw: float                   # +ve = export (discharge), -ve = import (charge)
 
     @model_validator(mode="after")
     def check_dates(self) -> BOAEvent:
+        if self.acceptance_dt is None or pd.isna(self.acceptance_dt):
+            self.acceptance_dt = self.start_dt
+        if self.acceptance_dt > self.start_dt:
+            raise ValueError(f"BOAEvent acceptance ({self.acceptance_dt}) must be before or equal to start ({self.start_dt})")
         if self.start_dt >= self.end_dt:
             raise ValueError(f"BOAEvent start ({self.start_dt}) must be before end ({self.end_dt})")
         return self

@@ -63,6 +63,7 @@ def load_scenarios() -> Dict[str, ScenarioDef]:
 
         boa_objs = [
             BOAEvent(
+                acceptance_dt=pd.Timestamp(boa.get("acceptance", boa["start"])),
                 start_dt=pd.Timestamp(boa["start"]), 
                 end_dt=pd.Timestamp(boa["end"]), 
                 mw=float(boa["mw"])

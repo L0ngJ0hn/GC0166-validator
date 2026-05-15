@@ -238,6 +238,48 @@ def _apply_pn_protection(
                 mdb_vol[delivery_indices] += remaining
 
 
+def _apply_boa_protection(
+    timeline: pd.DatetimeIndex,
+    boa_events: List[BOAEvent],
+    mdo_vol: np.ndarray,
+    mdb_vol: np.ndarray,
+) -> None:
+    """
+    Apply BOA protection: 
+    - Pre-window (Acceptance to Start): full volume protected
+    - Delivery window: volume released incrementally minute-by-minute
+    """
+    t_arr = timeline.values
+    for boa in boa_events:
+        if boa.mw == 0:
+            continue
+
+        duration_hrs = (boa.end_dt - boa.start_dt).total_seconds() / 3600.0
+        vol = abs(boa.mw) * duration_hrs
+
+        acc_s = boa.acceptance_dt.to_datetime64()
+        boa_s = boa.start_dt.to_datetime64()
+        boa_e = boa.end_dt.to_datetime64()
+
+        # --- Pre-window: hold full volume ---
+        mask_pre = (t_arr >= acc_s) & (t_arr < boa_s)
+        if boa.mw > 0:
+            mdo_vol[mask_pre] += vol
+        else:
+            mdb_vol[mask_pre] += vol
+
+        # --- Delivery window: incrementally release protection ---
+        delivery_indices = np.where((t_arr >= boa_s) & (t_arr < boa_e))[0]
+        n_del = len(delivery_indices)
+        if n_del > 0:
+            mwh_per_min = abs(boa.mw) / MINS_PER_HOUR
+            remaining = np.maximum(0.0, vol - (np.arange(1, n_del + 1) * mwh_per_min))
+            if boa.mw > 0:
+                mdo_vol[delivery_indices] += remaining
+            else:
+                mdb_vol[delivery_indices] += remaining
+
+
 # ---------------------------------------------------------------------------
 # Main engine function
 # ---------------------------------------------------------------------------
@@ -293,6 +335,8 @@ def run_engine(
     dfr_mwh_active = np.zeros(n)
     pn_mdo_vol = np.zeros(n)      # PN specific MDO protection
     pn_mdb_vol = np.zeros(n)      # PN specific MDB protection
+    boa_mdo_vol = np.zeros(n)
+    boa_mdb_vol = np.zeros(n)
     mel_reduction = np.zeros(n)   # MW being removed from MEL (DFR High)
     mil_reduction = np.zeros(n)   # MW being removed from |MIL| (DFR Low)
 
@@ -318,9 +362,10 @@ def run_engine(
         timeline, dfr_contracts, dfr_mdo_vol, dfr_mdb_vol, mel_reduction, mil_reduction, dfr_mw_active, dfr_mwh_active
     )
     _apply_pn_protection(timeline, pn_segments, pn_mdo_vol, pn_mdb_vol)
+    _apply_boa_protection(timeline, boa_events, boa_mdo_vol, boa_mdb_vol)
 
-    total_mdo_vol = qr_mdo_vol + dfr_mdo_vol + pn_mdo_vol
-    total_mdb_vol = qr_mdb_vol + dfr_mdb_vol + pn_mdb_vol
+    total_mdo_vol = qr_mdo_vol + dfr_mdo_vol + pn_mdo_vol + boa_mdo_vol
+    total_mdb_vol = qr_mdb_vol + dfr_mdb_vol + pn_mdb_vol + boa_mdb_vol
 
     # --- MDO / MDB ---
     mdo = np.maximum(0.0, soe - total_mdo_vol)
@@ -359,6 +404,8 @@ def run_engine(
         "DFR_Protected_MDB_MWh": np.round(dfr_mdb_vol, 4),
         "PN_Protected_MDO_MWh": np.round(pn_mdo_vol, 4),
         "PN_Protected_MDB_MWh": np.round(pn_mdb_vol, 4),
+        "BOA_Protected_MDO_MWh": np.round(boa_mdo_vol, 4),
+        "BOA_Protected_MDB_MWh": np.round(boa_mdb_vol, 4),
         "Total_Protected_MDO_MWh": np.round(total_mdo_vol, 4),
         "Total_Protected_MDB_MWh": np.round(total_mdb_vol, 4),
         "MDO_MWh": np.round(mdo, 4),
